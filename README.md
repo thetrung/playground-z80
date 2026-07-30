@@ -8,7 +8,6 @@ I choose to write assembly for my z80 system with `z80asm` from the start as sim
     $0x81 - UART (COM/TTL)
     $0x82 ~ 0x83 - I2C access (Display Mode + Data )
     $0x84 - SPI access (MicroSD/Disk)
-    $0x85 ~ 0x87 - Empty ( I/O ??? )
 
 In near future, if I still can find spare parts of Z80, I may add up more features later.
 
