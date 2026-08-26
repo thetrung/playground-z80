@@ -3,7 +3,7 @@ PORT_DISPLAY: EQU 0x00
 ORG 0x0000 ; ROM on Lower 32K 
 
 INIT:
-  LD SP, 0x0000
+  LD SP, 0x0000           ; 0x0000 - 1 = 0xFFFF
 
 MAIN:
   LD A, 0x41              ; character 'A'

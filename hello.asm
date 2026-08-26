@@ -20,4 +20,3 @@ print_loop:
             JR print_loop       ; Repeat the loop
 
 text:       DB "Hello, World!", 0 ; Define the null-terminated string bytes in memory
-            END                 ; End of the assembly file
