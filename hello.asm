@@ -1,22 +1,22 @@
+PORT_DISPLAY: EQU 0x00       ; Hello World via Port 0x00
+ORG 0x0000                   ; Start Program at 0x0000
 
-; hello.asm - A basic Z80 Assembly example
+INIT:
+    LD SP, 0x0000           ; 0x0000 - 1 = 0xFFFF
+    LD HL, MSG              ; Load the address of the string into HL register
 
-            ORG $8000           ; Set the origin (start address) to $8000 in RAM
+MAIN:
+    LD A, (HL)              ; Read character from ROM into Accumulator
+    CP 0                    ; Check if it is the null terminator (0)
+    JR Z, HALT_LOOP         ; If 0, string is finished, jump to halt
+    
+    OUT (PORT_DISPLAY), A   ; Send character in A to I/O Port 0x00 (The PIC)
+    INC HL                  ; Move to the next character address
+    JR MAIN                 ; Repeat for next character
 
-start:      
-            LD DE, text         ; Load the memory address of our string into DE
-            CALL display_string ; Call our custom subroutine to print it
-            RET                 ; Return to the operating system / monitor
+HALT_LOOP:
+    HALT                    ; Stop the Z80 execution
+    JR HALT_LOOP            ; Safety loop in case of unexpected interrupts
 
-display_string:
-            LD C, $06           ; $06 is the standard API code for character display
-print_loop:
-            LD A, (DE)          ; Load the character pointed to by DE into the Accumulator (A)
-            CP $00              ; Check if we hit the string terminator (NULL byte)
-            RET Z               ; If the Zero flag (Z) is set (A == 0), we are done, so return
-            
-            RST $30             ; Call the system monitor's output routine
-            INC DE              ; Move the pointer to the next character
-            JR print_loop       ; Repeat the loop
-
-text:       DB "Hello, World!", 0 ; Define the null-terminated string bytes in memory
+MSG:
+    DB "Hello World!", 0xA, 0x0  ; Text string with LF (0Ah) and Null terminator
